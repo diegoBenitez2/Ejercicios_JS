@@ -1,0 +1,8 @@
+Calculadora  de operaciones basicas (sumar,restar , multiplicar y dividir)
+INSTRUCCIONES
+1. Ingrese numeros que desee digitando en el cuadro de texto. 
+2. Realize una operacion a la vez seleccinando el operador deseado.
+3. Pulse el resultado para realizar la operacion mateematica.
+
+Se visualizara el resultado en el cuadro de texto
+Para limpiar pulse el boton "C" al lado de el cuadro de texto.
