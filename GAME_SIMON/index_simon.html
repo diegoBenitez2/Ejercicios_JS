@@ -14,6 +14,47 @@
         height: 100vh;
         font-family: Arial, Helvetica, sans-serif;
       }
+      .live{
+        position: absolute;
+        top: 50px;
+        left: 200px;
+        display: flex;
+        align-items: center;
+        border: 0;
+        }
+      
+      #vidas{
+        width: 50px;
+        height: 30px;
+        border-radius: 10px;
+        border: 0;
+        margin-left: 20px;
+        text-align: center;
+        font-size: 20px;
+        color: #2c3e50;
+        }
+        #btnReiniciar{
+          height: 30px;
+          width: 200px;
+          border : 0;
+          border-radius: 10px;
+          box-shadow: 0px 4px 0px rgba(26,23,16,.5) ;
+          text-align: center;
+          margin-left: 20px;
+          color: rgba(26,23,16,.6) ;
+          font-size: 20px;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        #btnReiniciar:active{
+          transform: scale(.8);
+          will-change: transform;
+          outline: 0;
+        }
+        #btnReiniciar:hover{
+          background-color: #056fff;
+          color: white;
+          box-shadow: 0px 4px 6px -2px rgba(26,23,16,.5) ;
+        }
 
       .gameboard {
         height: 100vh;
@@ -80,6 +121,9 @@
         position: absolute;
         top: calc(50% - 50px);
         left: calc(50% - 200px);
+        border-radius: 4px;
+        border: 0;
+        box-shadow: 0px  4px  4px  -1px  rgba(23,26,11,.5)
       }
 
       .hide {
@@ -89,6 +133,11 @@
     </style>
   </head>
   <body>
+    <div class="live">
+      <img src="imgs\heart_icon.png" alt="" width="30px" height="30px">
+      <input type="text"  id="vidas">
+      <button id = "btnReiniciar"type="reset"> Reiniciar </button>
+    </div>
     <div class="gameboard">
       <div id="celeste" class="color celeste left" data-color="celeste"></div>
       <div id="violeta" class="color violeta right" data-color="violeta"></div>
@@ -105,21 +154,30 @@
       const naranja = document.getElementById('naranja')
       const verde = document.getElementById('verde')
       const btnEmpezar = document.getElementById('btnEmpezar')
-      const ULTIMO_NIVEL = 1
+      const btnReiniciar = document.getElementById('btnReiniciar')
+      const $live = document.getElementById('vidas')
+      $live.value = 3
+      const ULTIMO_NIVEL = 10
+   
       //CLASE JUEGO
       //El metodo bind redefine el contexto de un evento
-      class Juego {
+    class Juego {
         constructor() {
+          this.reiniciar = btnReiniciar
           this.inicializar = this.inicializar.bind(this)
           this.inicializar()
           this.generarSecuencia()
           setTimeout(this.siguienteNivel,1000)
+          this.reiniciar.addEventListener('click',this.inicializar)
             
         }
         //METODOS DEL JUEGO
         inicializar() {
+          this.live = 3
+          $live.value = this.live
           this.elegirColor = this.elegirColor.bind(this)
           this.siguienteNivel = this.siguienteNivel.bind(this)
+          this.repetirNivel = this.repetirNivel.bind(this)
           this.toggleBtnEmpezar()
           this.nivel = 1
           this.subnivel = 0
@@ -133,11 +191,12 @@
         }
         //Boton iniciar juego
         toggleBtnEmpezar(){
-         if (btnEmpezar.classList.contains('hide')){
-           btnEmpezar.classList.remove('hide')
-         }else{
-          btnEmpezar.classList.add('hide')
-        }
+          if (btnEmpezar.classList.contains('hide')){
+            btnEmpezar.classList.remove('hide')
+          }
+            else{
+              btnEmpezar.classList.add('hide')
+            }
          
         }
         //Genera una secuencia de 10 digitos del 0 al 3 para los colores
@@ -146,6 +205,14 @@
         }
         //Accede al siguiente nivel llamado los dos metodos
         siguienteNivel(){
+          this.subnivel = 0
+          this.iluminarSecuencia()
+          this.agregarEventosClick()
+
+        }
+        //Se mantiene en el mismo nivel llamando a los dos metodos
+        repetirNivel(){
+          this.subnivel = 0
           this.iluminarSecuencia()
           this.agregarEventosClick()
 
@@ -190,14 +257,18 @@
           this.colores.celeste.addEventListener('click',this.elegirColor)
           this.colores.violeta.addEventListener('click',this.elegirColor)
           this.colores.verde.addEventListener('click',this.elegirColor)
-          this.colores.naranja.addEventListener('click',this.elegirColo)
+          this.colores.naranja.addEventListener('click',this.elegirColor)
+          this.reiniciar.addEventListener('click',this.inicializar)
+
         }
         //Quita los eventos en los botones de colores
         eliminarEventosClick(){
-           this.colores.celeste.removeEventListener('click',this.elegirColor)
+          this.colores.celeste.removeEventListener('click',this.elegirColor)
           this.colores.violeta.removeEventListener('click',this.elegirColor)
           this.colores.verde.removeEventListener('click',this.elegirColor)
-          this.colores.naranja.removeEventListener('click',this.elegirColo)
+          this.colores.naranja.removeEventListener('click',this.elegirColor)
+          this.reiniciar.removeEventListener('click',this.inicializar)
+
         }
         //Captura el color seleccionando por el evento
         elegirColor(ev){
@@ -207,44 +278,75 @@
           this.iluminarColor(nombreColor)
           if(numeroColor === this.secuencia[this.subnivel]){
             this.subnivel++
-            if(this.subnivel === this.nivel){
-              this.nivel++
-              this.eliminarEventosClick()
-              if(this.nivel === (ULTIMO_NIVEL +1)){
-                this.ganoElJuego()
-              }
-              else{
-                setTimeout(this.siguienteNivel,1500);
+              if(this.subnivel === this.nivel){
+                this.nivel++
+                this.eliminarEventosClick()
+              
+                  if(this.nivel === (ULTIMO_NIVEL +1)){
+                    this.ganoElJuego()
+                  }
+                    else if(this.nivel === 5){
+                    swal('Nivel '+this.nivel, 'Que bien!! Vas por la mitad','success')
+                      .then(()=>{
+                      setTimeout(this.siguienteNivel, 1500 )
+                      })
+                    }
+                      else{
+                      swal('Nivel '+this.nivel, 'Adelante!!','success')
+                      .then(()=>{
+                      setTimeout(this.siguienteNivel, 1500 )
+                      })
+                      }
+                        
               }
 
-          }
+          } 
+         
 
-            } else{
-           this.perdioElJuego()
+          else{
+            this.live-= 1
+            this.actualizarVidas(this.live)
+            if(this.live === 0){
+            this.perdioElJuego() 
             }
+            else{
+              swal('INCORRECTO','Intentalo de nuevo!','error')
+              .then(()=>{
+                setTimeout(this.repetirNivel, 1500)
+              })
 
-          }
-          //Muestra un cuadro de confirmacion con un mensaje de victoria
-          ganoElJuego(){
-            swal('SIMON','Felicitaciones, ganaste el juego!','success')
-            .then(this.inicializar)
+            }
+          } 
 
-          //Muestra un cuadro de confirmacioin con un mensaje de derrota
-             perdioElJuego(){
-            swal('SIMON','lo lamentamos, perdiste el juego!','error')
-            .then(()=>{
-              this.eliminarEventosClick()
-              this.inicializar()
-            })
-          }
         }
+        //Muestra un cuadro de confirmacion con un mensaje de victoria
+      ganoElJuego(){
+        swal('Felicitaciones', 'Ganaste el juego!','success')
+        .then(this.inicializar)
       }
+
+        //Muestra un cuadro de confirmacioin con un mensaje de derrota
+      perdioElJuego(){
+        swal('Lo lamentamos', 'perdiste el juego!','error')
+        .then(()=>{
+          this.eliminarEventosClick()
+          this.inicializar()
+        })
+      }
+      actualizarVidas(live){
+        $live.value = live
+      }
+    }
+      
+
+
       
       //Metodo que crea un instancia de la clase Juego
       function empezarJuego() {
         //window permite mostrar en consola la instancia
          window.juego = new Juego()
       }
+      
     </script>
   </body>
 </html>
