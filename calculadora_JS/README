@@ -1,0 +1,8 @@
+Calculadora  de operaciones basicas (sumar,restar , multiplicar y dividir)
+INSTRUCCIONES
+Solo se puede realizar una operacion matematica basica a la vez, para ello debe contruir la operacion asi:
+1.ingrese el numero deseado, luego ingrese el operador, de nuevo  ingrese el siguiente numero; 
+  asi consecutivamente tanta veces como desee.
+2. Pulse el resultado para realizar la operacion matematica.
+3. Una vez visualizado el resultado en el cuadro de texto, ingrese una operador(+,-,*,/) si desea continuar.
+4.Para limpiar pulse el boton "C" al lado de el cuadro de texto.
