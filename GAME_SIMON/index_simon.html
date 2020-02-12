@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Simon Dice</title>
+    <style>
+     /* ESTILOS DEL JUEGO */
+      body {
+        margin: 0;
+        background: #dedede;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .gameboard {
+        height: 100vh;
+        width: 100vh;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        max-height: 60vh;
+        max-width: 60vh;
+      }
+
+      .color {
+        width: 50%;
+        height: 50%;
+        display: inline-block;
+      }
+
+      .left {
+        float: left;
+      }
+
+      .right {
+        float: left;
+      }
+
+      .celeste {
+        background: #22a6b3;
+      }
+
+      .celeste.light {
+        background: #7ed6df;
+      }
+
+      .violeta {
+        background: #be2edd;
+      }
+
+      .violeta.light {
+        background: #e056fd;
+      }
+
+      .naranja {
+        background: #f0932b;
+      }
+
+      .naranja.light {
+        background: #ffbe76;
+      }
+
+      .verde {
+        background: #6ab04c;
+      }
+
+      .verde.light {
+        background: #badc58;
+      }
+
+      .btn-start {
+        width: 400px;
+        height: 100px;
+        background: #ecf0f1;
+        color: #2c3e50;
+        font-size: 2.5rem;
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 200px);
+      }
+
+      .hide {
+        display: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="gameboard">
+      <div id="celeste" class="color celeste left" data-color="celeste"></div>
+      <div id="violeta" class="color violeta right" data-color="violeta"></div>
+      <div id="naranja" class="color naranja left" data-color="naranja"></div>
+      <div id="verde" class="color verde right" data-color="verde"></div>
+      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
+    </div>
+    <!-- //CDN de Sweet alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+      //VARIBLES DEL JUEGO
+      const celeste = document.getElementById('celeste')
+      const violeta = document.getElementById('violeta')
+      const naranja = document.getElementById('naranja')
+      const verde = document.getElementById('verde')
+      const btnEmpezar = document.getElementById('btnEmpezar')
+      const ULTIMO_NIVEL = 1
+      //CLASE JUEGO
+      //El metodo bind redefine el contexto de un evento
+      class Juego {
+        constructor() {
+          this.inicializar = this.inicializar.bind(this)
+          this.inicializar()
+          this.generarSecuencia()
+          setTimeout(this.siguienteNivel,1000)
+            
+        }
+        //METODOS DEL JUEGO
+        inicializar() {
+          this.elegirColor = this.elegirColor.bind(this)
+          this.siguienteNivel = this.siguienteNivel.bind(this)
+          this.toggleBtnEmpezar()
+          this.nivel = 1
+          this.subnivel = 0
+          //objeto con los colores establecidos
+          this.colores = {
+            celeste,
+            violeta,
+            naranja,
+            verde
+          }
+        }
+        //Boton iniciar juego
+        toggleBtnEmpezar(){
+         if (btnEmpezar.classList.contains('hide')){
+           btnEmpezar.classList.remove('hide')
+         }else{
+          btnEmpezar.classList.add('hide')
+        }
+         
+        }
+        //Genera una secuencia de 10 digitos del 0 al 3 para los colores
+        generarSecuencia(){
+          this.secuencia = new Array(10).fill(0).map(n => Math.floor(Math.random()*4))
+        }
+        //Accede al siguiente nivel llamado los dos metodos
+        siguienteNivel(){
+          this.iluminarSecuencia()
+          this.agregarEventosClick()
+
+        }
+        //Recibe un numero y retorna un color especifico
+        transformarNumeroColor(num){
+          switch(num){
+            case 0: return 'celeste'
+            case 1 : return 'violeta'
+            case 2: return 'naranja'
+            case 3: return 'verde'
+          }
+        }
+        //Recibe un color y retorna un numero especificogi
+          transformarColorNumero(color){
+            switch(color){
+            case 'celeste': return  0
+            case 'violeta' : return 1
+            case 'naranja': return  2
+            case  'verde': return   3
+          }
+        }
+        //ilumina los colores de la secuencia por niveles
+        iluminarSecuencia(){
+          for(let i = 0; i < this.nivel;  i++){
+            const  color = this.transformarNumeroColor(this.secuencia[i])
+            setTimeout(() => 
+              this.iluminarColor(color) , 1000 * i) 
+          }
+        }
+        //Agrega la clase "light" para iluminar al  color del boton
+          iluminarColor(color){
+            this.colores[color].classList.add('light')
+            setTimeout(() => this.apagarColor(color), 350)
+          }
+          //Remueve la clase "light" del boton
+        apagarColor(color){
+          this.colores[color].classList.remove('light')
+        }
+        //Declara eventos a todos los botones de colores
+        agregarEventosClick(){
+          this.colores.celeste.addEventListener('click',this.elegirColor)
+          this.colores.violeta.addEventListener('click',this.elegirColor)
+          this.colores.verde.addEventListener('click',this.elegirColor)
+          this.colores.naranja.addEventListener('click',this.elegirColo)
+        }
+        //Quita los eventos en los botones de colores
+        eliminarEventosClick(){
+           this.colores.celeste.removeEventListener('click',this.elegirColor)
+          this.colores.violeta.removeEventListener('click',this.elegirColor)
+          this.colores.verde.removeEventListener('click',this.elegirColor)
+          this.colores.naranja.removeEventListener('click',this.elegirColo)
+        }
+        //Captura el color seleccionando por el evento
+        elegirColor(ev){
+          
+          const nombreColor = ev.target.dataset.color
+          const numeroColor = this.transformarColorNumero(nombreColor)
+          this.iluminarColor(nombreColor)
+          if(numeroColor === this.secuencia[this.subnivel]){
+            this.subnivel++
+            if(this.subnivel === this.nivel){
+              this.nivel++
+              this.eliminarEventosClick()
+              if(this.nivel === (ULTIMO_NIVEL +1)){
+                this.ganoElJuego()
+              }
+              else{
+                setTimeout(this.siguienteNivel,1500);
+              }
+
+          }
+
+            } else{
+           this.perdioElJuego()
+            }
+
+          }
+          //Muestra un cuadro de confirmacion con un mensaje de victoria
+          ganoElJuego(){
+            swal('SIMON','Felicitaciones, ganaste el juego!','success')
+            .then(this.inicializar)
+
+          //Muestra un cuadro de confirmacioin con un mensaje de derrota
+             perdioElJuego(){
+            swal('SIMON','lo lamentamos, perdiste el juego!','error')
+            .then(()=>{
+              this.eliminarEventosClick()
+              this.inicializar()
+            })
+          }
+        }
+      }
+      
+      //Metodo que crea un instancia de la clase Juego
+      function empezarJuego() {
+        //window permite mostrar en consola la instancia
+         window.juego = new Juego()
+      }
+    </script>
+  </body>
+</html>
