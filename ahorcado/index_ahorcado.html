@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ahorcado</title>
+  <link rel="stylesheet" href="ahorcado.css">
+</head>
+<body>
+  <h1>  EL AHORCADO</h1>
+  
+    <div class="container">
+      <div class="live">
+        <img src="img\heart_icon.png" alt="" width="30px" height="30px">
+        <input type="text"  id="vidas">
+        <button id = "btnReiniciar"type="reset"> Reiniciar </button>
+       </div>
+      <div class="container_letras">
+        <input type="text" name="0" id="l0" class="letras l0">
+        <input type="text" name="1" id="l1" class="letras l1">
+        <input type="text" name="2" id="l2" class="letras l2">
+        <input type="text" name="3" id="l3" class="letras l3">
+        <input type="text" name="4" id="l4" class="letras l4">
+        <input type="text" name="5" id="l5" class="letras l5">
+        <input type="text" name="6" id="l6" class="letras l6">
+        <input type="text" name="7" id="l7" class="letras l7">
+        <input type="text" name="8" id="l8" class="letras l8">
+        <input type="text" name="9" id="l9" class="letras l9">
+        <input type="text" name="10" id="l10" class="letras l10">
+        <input type="text" name="11" id="l11" class="letras l11">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.7.2/dist/sweetalert2.all.min.js"></script> 
+      
+        </div>
+        <div class="seleccionar">
+            <input type="text" onkeypress="return soloLetras(event)" id="letra">
+            <button id="btn_letra"> <img src="img/up-arrow.png" alt=""></button>
+          </div>
+
+
+
+    </div>
+  <script src ="ahorcado.js"></script>
+</body>
+</html>

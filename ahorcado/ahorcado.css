@@ -1,0 +1,137 @@
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-y: hidden;
+}
+h1{
+
+  margin-top: 100px;
+}
+  .live{
+        position: absolute;
+        top: 150px;
+        left: 150px;
+        display: flex;
+        align-items: center;
+        border: 0;
+        }
+  .live img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+      #vidas{
+        width: 50px;
+        height: 30px;
+        border: 0;  
+        margin-left: 5px;
+        text-align: center;
+        font-size: 25px;
+        font-weight: 600;
+        color: #2c3e50;
+        cursor: pointer;
+        }
+        #vidas:hover{
+         color: rgba(26,23,16,.5) ;
+        }
+        #btnReiniciar{
+          height: 30px;
+          width: 200px;
+          border : 0;
+          border-radius: 10px;
+          box-shadow: 0px 4px 0px rgba(26,23,16,.5) ;
+          text-align: center;
+          margin-left: 20px;
+          color: rgba(26,23,16,.6) ;
+          font-size: 20px;
+          font-family: Arial, Helvetica, sans-serif;
+          cursor: pointer;
+        }
+        #btnReiniciar:active{
+          transform: scale(.8);
+          will-change: transform;
+          outline: 0;
+        }
+        #btnReiniciar:hover{
+          background-color: #056fff;
+          color: white;
+          box-shadow: 0px 4px 6px -2px rgba(26,23,16,.5) ;
+        }
+.container{
+  margin: 200px auto;
+  text-align: center;
+}
+.container_letras{
+  display: flex;
+  padding: 10px;
+  margin-bottom: 30px;
+  }
+  .letras{
+    width: 70px;
+    height: 50px;
+    margin-right: 20px;
+    text-align: center;
+    font-size: 50px;
+    border: 0;
+    border-bottom: 5px solid black;
+    transition: .2s ease all;
+    
+  }
+  .l0,.l1,.l2,.l3,.l4,.l5,.l6,.l7,.l8,.l9,.l10,.l11{
+   visibility: hidden;
+  }
+  
+  .verEspacios{
+    visibility: visible;
+  }
+  .letras:hover{
+    transform: translateY(10px); 
+  }   
+  .seleccionar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 0 0 ;
+  }
+  #btn_letra{
+    width: 200px;
+    height: 70px; 
+    border-radius: 10px;
+    color: black;
+    margin: 30px 20px 0 0 ;
+    text-align: center;
+    padding: 0 ;
+    border: 0;
+    box-shadow: 0px 4px 0px rgba(26,23,16,.5) ;
+    cursor: pointer;
+  }
+
+  #btn_letra img {
+    width: 60px;
+    height: 60px;
+  }
+
+  #btn_letra:active{
+    transform: scale(.8);
+    will-change: transform;
+    outline: 0;
+  }
+  #letra{
+    width: 200px;
+    height: 70px; 
+    color: black;
+    margin: 0;  
+    border: 0;
+    border-bottom: 5px solid black;
+    padding: 0;
+    margin-right: 20px;
+    font-size: 70px;
+    color: rgb(255, 41, 41);
+    text-align: center;
+  }
+  #letra:hover{
+    transform: translateY(10px);
+  }
+ 
